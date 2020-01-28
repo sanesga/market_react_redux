@@ -1,70 +1,100 @@
 import { createStore } from "redux";
 
 const estadoInicial = {
-  animales: [
+  productos: [
     {
       id: 1,
-      tipo: "Perro",
-      nombre: "Rudy",
-      edad: 3
+      nombre: "Leche",
+      marca: "Puleva",
+      cantidad: "100ml",
+      precio: "1,50€"
     },
     {
       id: 2,
-      tipo: "Gato",
-      nombre: "Mina",
-      edad: 3
+      nombre: "Limón",
+      marca: "Ninguna",
+      cantidad: "20gr",
+      precio: "0,60€"
     },
     {
       id: 3,
-      tipo: "Poni",
-      nombre: "Ricardo",
-      edad: 1
+      nombre: "Chocolate",
+      marca: "Nestle",
+      cantidad: "75gr",
+      precio: "2,00€"
     },
     {
       id: 4,
-      tipo: "Perro",
-      nombre: "Leo",
-      edad: 5
+      nombre: "Suavizante",
+      marca: "Flor",
+      cantidad: "1000ml",
+      precio: "1,20€"
     }
   ],
-  adopcion: [],
-  casaAcogida: []
+  supermercado1: [],
+  supermercado2: [],
+  carrito:[]
 };
 
-const reducerProtectora = (state = estadoInicial, action) => {
-  if (action.type === "AGREGAR_ADOPCION") {
+const reducerSupermercado = (state = estadoInicial, action) => {
+  if (action.type === "AGREGAR_A_SUPERMERCADO_1") {
     return {
       ...state,
-      adopcion: state.adopcion.concat(action.animal),
-      animales: state.animales.filter(j => j.id !== action.animal.id)
+      supermercado1: state.supermercado1.concat(action.producto),
+      productos: state.productos.filter(j => j.id !== action.producto.id)
     };
   }
 
-  if (action.type === "AGREGAR_ACOGIDA") {
+  if (action.type === "AGREGAR_A_SUPERMERCADO_2") {
     return {
       ...state,
-      casaAcogida: state.casaAcogida.concat(action.animal),
-      animales: state.animales.filter(j => j.id !== action.animal.id)
+      supermercado2: state.supermercado2.concat(action.producto),
+      productos: state.productos.filter(j => j.id !== action.producto.id)
     };
   }
 
-  if (action.type === "QUITAR_ADOPCION") {
+  if (action.type === "QUITAR_DE_SUPERMERCADO_1") {
     return {
       ...state,
-      adopcion: state.adopcion.filter(j => j.id !== action.animal.id),
-      animales: state.animales.concat(action.animal)
+      supermercado1: state.supermercado1.filter(j => j.id !== action.producto.id),
+      productos: state.productos.concat(action.producto)
      
     };
   }
 
-  if (action.type === "QUITAR_ACOGIDA") {
+  if (action.type === "QUITAR_DE_SUPERMERCADO_2") {
     return {
       ...state,
-      casaAcogida: state.casaAcogida.filter(j => j.id !== action.animal.id),
-      animales: state.animales.concat(action.animal)
+      supermercado2: state.supermercado2.filter(j => j.id !== action.producto.id),
+      productos: state.productos.concat(action.producto)
     };
   }
+
+  if (action.type === "AGREGAR_A_CARRITO_DESDE_SUPERMERCADO_1") {
+    return {
+      ...state,
+      carrito: state.carrito.concat(action.producto),
+      supermercado1: state.supermercado1.filter(j => j.id !== action.producto.id)
+    };
+  }
+
+  if (action.type === "AGREGAR_A_CARRITO_DESDE_SUPERMERCADO_2") {
+    return {
+      ...state,
+      carrito: state.carrito.concat(action.producto),
+      supermercado2: state.supermercado2.filter(j => j.id !== action.producto.id)
+    };
+  }
+
+  if (action.type === "QUITAR_DE_CARRITO") {
+    return {
+      ...state,
+      productos: state.productos.concat(action.producto),
+      carrito: state.carrito.filter(j => j.id !== action.producto.id)
+    };
+  }
+
   return state;
 
 }
-export default createStore(reducerProtectora);
+export default createStore(reducerSupermercado);
